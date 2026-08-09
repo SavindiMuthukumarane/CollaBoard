@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="760" viewBox="0 0 1100 760">
+  <style>.b{fill:#fff;stroke:#1e3a8a;stroke-width:2}.t{font-family:Arial,sans-serif;fill:#111827}.l{stroke:#64748b;stroke-width:2}</style>
+  <rect width="1100" height="760" fill="#f8fafc"/>
+  <rect x="450" y="35" width="200" height="58" rx="10" class="b"/><text x="505" y="72" font-size="22" font-weight="700" class="t">App</text>
+  <line x1="550" y1="93" x2="550" y2="140" class="l"/><line x1="170" y1="140" x2="930" y2="140" class="l"/>
+  <g>
+    <line x1="170" y1="140" x2="170" y2="185" class="l"/><rect x="70" y="185" width="200" height="58" rx="10" class="b"/><text x="120" y="221" font-size="20" class="t">Auth Pages</text>
+    <line x1="430" y1="140" x2="430" y2="185" class="l"/><rect x="330" y="185" width="200" height="58" rx="10" class="b"/><text x="370" y="221" font-size="20" class="t">Dashboard</text>
+    <line x1="680" y1="140" x2="680" y2="185" class="l"/><rect x="580" y="185" width="200" height="58" rx="10" class="b"/><text x="626" y="221" font-size="20" class="t">BoardPage</text>
+    <line x1="930" y1="140" x2="930" y2="185" class="l"/><rect x="830" y="185" width="200" height="58" rx="10" class="b"/><text x="868" y="221" font-size="20" class="t">Navbar</text>
+  </g>
+  <line x1="680" y1="243" x2="680" y2="305" class="l"/><line x1="390" y1="305" x2="950" y2="305" class="l"/>
+  <g>
+    <line x1="390" y1="305" x2="390" y2="350" class="l"/><rect x="290" y="350" width="200" height="58" rx="10" class="b"/><text x="351" y="386" font-size="20" class="t">Column</text>
+    <line x1="670" y1="305" x2="670" y2="350" class="l"/><rect x="570" y="350" width="200" height="58" rx="10" class="b"/><text x="616" y="386" font-size="20" class="t">TaskModal</text>
+    <line x1="950" y1="305" x2="950" y2="350" class="l"/><rect x="850" y="350" width="200" height="58" rx="10" class="b"/><text x="884" y="386" font-size="20" class="t">ErrorBanner</text>
+  </g>
+  <line x1="390" y1="408" x2="390" y2="485" class="l"/><rect x="290" y="485" width="200" height="58" rx="10" class="b"/><text x="337" y="521" font-size="20" class="t">TaskCard</text>
+  <rect x="70" y="610" width="960" height="95" rx="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="110" y="648" font-size="20" font-weight="700" class="t">Shared layers</text>
+  <text x="110" y="682" font-size="18" class="t">AuthContext · ProtectedRoute · API service · localStorage token</text>
+</svg>
