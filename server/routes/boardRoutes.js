@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { createBoard, deleteBoard, getBoard, listBoards, updateBoard } from '../controllers/boardController.js';
+import { createTask, listTasks } from '../controllers/taskController.js';
+import { protect } from '../middleware/authMiddleware.js';
+const router = Router();
+router.use(protect);
+router.route('/').get(listBoards).post(createBoard);
+router.route('/:boardId/tasks').get(listTasks).post(createTask);
+router.route('/:id').get(getBoard).put(updateBoard).delete(deleteBoard);
+export default router;
