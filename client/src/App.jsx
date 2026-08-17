@@ -1,31 +1,23 @@
-import { useState } from 'react';
-import Navbar from './components/Navbar.jsx';
-import Board from './components/Board.jsx';
-import { initialTasks } from './data/mockData.js';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { useAuth } from './context/AuthContext.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import RegisterPage from './pages/RegisterPage.jsx';
+import DashboardPage from './pages/DashboardPage.jsx';
+import BoardPage from './pages/BoardPage.jsx';
 
 export default function App() {
-  const [tasks, setTasks] = useState(initialTasks);
-
-  function handleDragStart(event, taskId) {
-    event.dataTransfer.setData('text/plain', taskId);
-    event.dataTransfer.effectAllowed = 'move';
-  }
-
-  function handleDropTask(event, status) {
-    const taskId = event.dataTransfer.getData('text/plain');
-    setTasks((current) => current.map((task) => task.id === taskId ? { ...task, status } : task));
-  }
-
+  const { isAuthenticated } = useAuth();
   return (
-    <>
-      <Navbar />
-      <main className="page-shell">
-        <div className="page-heading">
-          <div><p className="eyebrow">M1 · Static Front-End Skeleton</p><h1>Website Redesign</h1><p>Move the mock task cards between columns.</p></div>
-          <button className="primary-button">+ Add task</button>
-        </div>
-        <Board tasks={tasks} onDropTask={handleDropTask} onDragStart={handleDragStart} />
-      </main>
-    </>
+    <Routes>
+      <Route path="/" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
+      <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage />} />
+      <Route path="/register" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <RegisterPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/boards/:boardId" element={<BoardPage />} />
+      </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
