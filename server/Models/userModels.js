@@ -1,20 +1,19 @@
-import { randomUUID } from 'node:crypto';
+import mongoose from 'mongoose';
 
-const users = [];
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true, trim: true, maxlength: 80 },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true, maxlength: 160 },
+  passwordHash: { type: String, required: true, select: false }
+}, { timestamps: true });
 
-export const UserModel = {
-  async exists({ email }) {
-    return users.some((user) => user.email === email);
-  },
-  async create({ name, email, passwordHash }) {
-    const user = { id: randomUUID(), name, email, passwordHash, createdAt: new Date().toISOString() };
-    users.push(user);
-    return user;
-  },
-  async findByEmail(email) {
-    return users.find((user) => user.email === email) || null;
-  },
-  async findById(id) {
-    return users.find((user) => user.id === id) || null;
+userSchema.set('toJSON', {
+  transform(_document, value) {
+    value.id = value._id.toString();
+    delete value._id;
+    delete value.__v;
+    delete value.passwordHash;
+    return value;
   }
-};
+});
+
+export const UserModel = mongoose.models.User || mongoose.model('User', userSchema);
