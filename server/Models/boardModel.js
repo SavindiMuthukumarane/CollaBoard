@@ -1,33 +1,22 @@
-import { randomUUID } from 'node:crypto';
+import mongoose from 'mongoose';
 
-const boards = [];
+const boardSchema = new mongoose.Schema({
+  name: { type: String, required: true, trim: true, maxlength: 100 },
+  description: { type: String, default: '', trim: true, maxlength: 300 },
+  ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+  memberIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+}, { timestamps: true });
 
-function accessible(board, userId) {
-  return board.ownerId === userId || board.memberIds.includes(userId);
-}
-
-export const BoardModel = {
-  async listForUser(userId) {
-    return boards.filter((board) => accessible(board, userId)).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
-  },
-  async findAccessible(id, userId) {
-    return boards.find((board) => board.id === id && accessible(board, userId)) || null;
-  },
-  async create({ name, description, ownerId }) {
-    const now = new Date().toISOString();
-    const board = { id: randomUUID(), name, description, ownerId, memberIds: [ownerId], createdAt: now, updatedAt: now };
-    boards.push(board);
-    return board;
-  },
-  async update(id, userId, changes) {
-    const board = boards.find((item) => item.id === id && accessible(item, userId));
-    if (!board) return null;
-    Object.assign(board, changes, { updatedAt: new Date().toISOString() });
-    return board;
-  },
-  async removeOwned(id, userId) {
-    const index = boards.findIndex((board) => board.id === id && board.ownerId === userId);
-    if (index === -1) return null;
-    return boards.splice(index, 1)[0];
+boardSchema.index({ memberIds: 1, updatedAt: -1 });
+boardSchema.set('toJSON', {
+  transform(_document, value) {
+    value.id = value._id.toString();
+    value.ownerId = value.ownerId?.toString();
+    value.memberIds = (value.memberIds || []).map(String);
+    delete value._id;
+    delete value.__v;
+    return value;
   }
-};
+});
+
+export const BoardModel = mongoose.models.Board || mongoose.model('Board', boardSchema);
