@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { UserModel } from '../models/userModel.js';
+import { UserModel } from '../models/userModels.js';
 import { getJwtSecret } from '../config/auth.js';
 
 export async function protect(req, res, next) {
