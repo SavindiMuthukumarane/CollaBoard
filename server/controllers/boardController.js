@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { BoardModel } from '../models/boardModel.js';
+import { TaskModel } from '../models/taskModel.js';
 
 function accessFilter(id, userId) { return { _id: id, $or: [{ ownerId: userId }, { memberIds: userId }] }; }
 
@@ -33,5 +34,6 @@ export async function deleteBoard(req, res) {
   if (!mongoose.isValidObjectId(req.params.id)) return res.status(404).json({ message: 'Board not found.' });
   const board = await BoardModel.findOneAndDelete({ _id: req.params.id, ownerId: req.user.id });
   if (!board) return res.status(404).json({ message: 'Board not found or only the owner may delete it.' });
+  await TaskModel.deleteMany({ boardId: board._id });
   return res.status(204).send();
 }
